@@ -1,31 +1,40 @@
 package com.rijksmuseum.api.utilities;
 
 import com.rijksmuseum.api.configuration.AbstractConfiguration;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
 public class SecretsProvider extends AbstractConfiguration {
+
+    private static final Logger logger = LogManager.getLogger(SecretsProvider.class);
+
     @Override
     protected String getConfigPath() {
         return "src/test/resources/secrets.properties";
     }
 
     public String getApiKey() {
-        // Try to get API key from secrets.properties
+
         String apiKey = getProperty("api.key");
 
-        // If not found, get API key from environment variable (GitHub Actions)
-        if (apiKey == null || apiKey.isEmpty()) {
-            apiKey = System.getenv("API_KEY"); // Read from GitHub Actions environment
+        if (apiKey != null && !apiKey.isEmpty()) {
+            logger.info("API Key successfully loaded from secrets.properties.");
+            return apiKey;
         }
 
-        // If still missing, throw an error
-        if (apiKey == null || apiKey.isEmpty()) {
-            throw new RuntimeException("API key is missing in secrets.properties file!");
+        apiKey = System.getenv("API_KEY");
+
+        if (apiKey != null && !apiKey.isEmpty()) {
+            logger.info("API Key successfully loaded from environment variable.");
+            return apiKey;
         }
-        return apiKey;
+
+        logger.error("API key is missing! Provide it in secrets.properties or as an environment variable (`API_KEY`).");
+        throw new RuntimeException("API key is missing! Provide it in secrets.properties or as an environment variable (`API_KEY`).");
     }
 
     @Override
@@ -33,13 +42,15 @@ public class SecretsProvider extends AbstractConfiguration {
         File file = new File(getConfigPath());
 
         if (!file.exists()) {
-            System.err.println("Secrets.properties file not found.");
+            logger.warn("Secrets.properties file not found.");
             return; // Prevent crashing but warn user
         }
 
         try (FileInputStream fileInputStream = new FileInputStream(file)) {
             properties.load(fileInputStream);
+            logger.info("Loaded properties from {}", getConfigPath());
         } catch (IOException e) {
+            logger.error("Failed to load secrets.properties file.", e);
             throw new RuntimeException("Failed to load secrets.properties file.", e);
         }
     }
