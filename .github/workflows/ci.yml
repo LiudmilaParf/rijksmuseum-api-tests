@@ -8,6 +8,7 @@ on:
   pull_request:
     branches:
       - main
+workflow_dispatch:
 
 jobs:
   test:
@@ -41,4 +42,4 @@ jobs:
         if: always()
         with:
           name: allure-report
-          path: target/site/allure-maven/index.html
+          path: target/site/allure-maven/
