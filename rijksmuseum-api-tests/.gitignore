@@ -36,3 +36,9 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Ignore Allure Report files (EXCEPT in CI) ###
+allure-results/
+allure-report/
+target/allure-results/
+target/site/allure-maven/

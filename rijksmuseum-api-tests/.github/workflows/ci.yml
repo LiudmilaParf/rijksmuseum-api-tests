@@ -1,4 +1,4 @@
-name: API Tests CI
+name: API Tests with Allure Reports
 
 on:
   push:
@@ -28,3 +28,12 @@ jobs:
 
       - name: Run API Tests
         run: mvn test
+
+      - name: Generate Allure Report
+        uses: mvn allure:report
+
+      - name: Upload Allure Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-report
+          path: target/site/allure-maven/index.html
