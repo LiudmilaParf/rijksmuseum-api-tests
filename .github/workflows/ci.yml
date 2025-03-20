@@ -21,6 +21,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Setup secrets.properties  # ✅ Dynamically create the file
+        run: |
+          echo "api.key=${API_KEY}" > src/test/resources/secrets.properties
+          cat src/test/resources/secrets.properties
+
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -35,11 +40,15 @@ jobs:
 
       - name: Generate Allure Report
         if: always()
-        run: mvn allure:report
+        run: mvn allure:report || echo "Allure report failed to generate"
 
       - name: Upload Allure Report
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: allure-report
-          path: target/site/allure-maven/
+          path: target/site/allure-maven/ || echo "No Allure report to upload"
+
+      - name: List Allure report files
+        if: always()
+        run: ls -R target/site/ || echo "No Allure report found!"
