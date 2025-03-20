@@ -4,13 +4,7 @@ target/
 !**/src/test/**/target/
 
 ### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
-*.iws
-*.iml
-*.ipr
+.idea
 
 ### Eclipse ###
 .apt_generated
@@ -42,3 +36,8 @@ allure-results/
 allure-report/
 target/allure-results/
 target/site/allure-maven/
+
+# Ignore secrets file
+src/test/resources/secrets.properties
+
+*.iml
