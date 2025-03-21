@@ -21,7 +21,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup secrets.properties  # ✅ Dynamically create the file
+      - name: Setup secrets.properties  # Dynamically create the file
         run: |
           echo "api.key=${API_KEY}" > src/test/resources/secrets.properties
           cat src/test/resources/secrets.properties
@@ -40,15 +40,41 @@ jobs:
 
       - name: Generate Allure Report
         if: always()
-        run: mvn allure:report
+        run: mvn allure:report -Dallure.results.directory=allure-results -Dallure.report.directory=allure-report
 
       - name: Upload Allure Report
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: allure-report
-          path: target/site/allure-maven/
+          path: allure-report/
 
       - name: List Allure report files
         if: always()
-        run: ls -R target/site/ || echo "No Allure report found!"
+        run: ls -R target/allure-results
+
+      - name: Get Allure history
+        uses: actions/checkout@v2
+        if: always()
+        continue-on-error: true
+        with:
+          ref: allure-gh-pages
+          path: allure-gh-pages
+
+      - name: Create Allure report
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        id: allure-report
+        with:
+          allure_results: allure-results
+          gh_pages: allure-gh-pages
+          allure_history: allure-history
+          keep_reports: 20
+
+      - name: Deploy Allure report to GH Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+          PERSONAL_TOKEN: ${{ secrets.PAT }}
+          PUBLISH_BRANCH: allure-gh-pages
+          PUBLISH_DIR: allure-history
