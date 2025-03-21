@@ -79,3 +79,8 @@ jobs:
           PERSONAL_TOKEN: ${{ secrets.PAT }}
           PUBLISH_BRANCH: allure-gh-pages
           PUBLISH_DIR: allure-history
+
+      - name: Print Allure Report URL
+        if: always()
+        run:
+          echo "Allure report https://liudmilaparf.github.io/rijksmuseum-api-tests/"
