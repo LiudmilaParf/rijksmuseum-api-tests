@@ -1,12 +1,16 @@
 package com.rijksmuseum.api.tests;
 
+import com.rijksmuseum.api.configuration.CollectionDataProvider;
+import com.rijksmuseum.api.models.ArtObjects;
 import com.rijksmuseum.api.models.CollectionResponse;
 import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 
+import static com.rijksmuseum.api.utilities.Route.COLLECTION;
 import static io.restassured.RestAssured.given;
 import static org.apache.http.HttpStatus.*;
-import static org.testng.Assert.assertEquals;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.assertFalse;
 
 @Story("RM-1 RM API: GetCollections")
@@ -17,7 +21,7 @@ public class CollectionTests extends BaseTest {
         CollectionResponse response = given()
                 .spec(getRequestSpec())
                 .when()
-                .get("/collection")
+                .get(COLLECTION)
                 .then()
                 .statusCode(SC_OK)
                 .extract()
@@ -26,18 +30,25 @@ public class CollectionTests extends BaseTest {
         assertFalse(response.getArtObjects().isEmpty());
     }
 
-    @Test(description = "GET /collection by involvedMaker", groups = {"smoke", "collections"})
-    public void getCollectionByInvolvedMaker() {
+    @Test(description = "GET /collection by involvedMaker", groups = {"collections"},
+            dataProvider = "artists",
+            dataProviderClass = CollectionDataProvider.class
+    )
+    public void getCollectionByInvolvedMaker(String artist) {
         CollectionResponse response = given()
                 .spec(getRequestSpec())
-                .queryParam("involvedMaker", "Rembrandt van Rijn")
+                .queryParam("involvedMaker", artist)
                 .when()
-                .get("/collection")
+                .get(COLLECTION)
                 .then()
                 .statusCode(SC_OK)
                 .extract()
                 .as(CollectionResponse.class);
 
-        assertEquals(response.getArtObjects().get(0).getPrincipalOrFirstMaker(), "Rembrandt van Rijn");
+        assertThat(response.getArtObjects().stream()
+                        .map(ArtObjects::getPrincipalOrFirstMaker)
+                        .toList(),
+                everyItem(equalTo(artist))
+        );
     }
 }

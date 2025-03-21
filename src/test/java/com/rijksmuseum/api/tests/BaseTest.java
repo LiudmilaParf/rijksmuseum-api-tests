@@ -13,6 +13,8 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import org.testng.annotations.BeforeClass;
 import io.qameta.allure.restassured.AllureRestAssured;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
 
 public class BaseTest {
     protected static Configuration config;
@@ -40,6 +42,11 @@ public class BaseTest {
                             return objectMapper;
                         }
                 ));
+
+        RestAssured.filters(
+                new RequestLoggingFilter(LogDetail.ALL),
+                new ResponseLoggingFilter(LogDetail.ALL)
+        );
     }
 
     public RequestSpecification getRequestSpec() {
