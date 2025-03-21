@@ -13,5 +13,7 @@ import java.util.List;
 public class CollectionResponse {
     private int elapsedMilliseconds;
     private int count;
+    private CountFacets countFacets;
     private List<ArtObjects> artObjects;
+    private List<Facets> facets;
 }

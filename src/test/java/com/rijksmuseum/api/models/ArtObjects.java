@@ -15,11 +15,11 @@ public class ArtObjects {
     private String id;
     private String objectNumber;
     private String title;
-    private boolean hasImage;
+    private Boolean hasImage;
     private String principalOrFirstMaker;
     private String longTitle;
-    private boolean showImage;
-    private boolean permitDownload;
+    private Boolean showImage;
+    private Boolean permitDownload;
     private WebImage webImage;
     private HeaderImage headerImage;
     private List<String> productionPlaces;
