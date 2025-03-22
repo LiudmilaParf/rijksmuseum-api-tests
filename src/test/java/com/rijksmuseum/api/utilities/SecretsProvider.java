@@ -33,7 +33,6 @@ public class SecretsProvider extends AbstractConfiguration {
             return apiKey;
         }
 
-        logger.error("API key is missing! Provide it in secrets.properties or as an environment variable (`API_KEY`).");
         throw new RuntimeException("API key is missing! Provide it in secrets.properties or as an environment variable (`API_KEY`).");
     }
 
@@ -43,14 +42,13 @@ public class SecretsProvider extends AbstractConfiguration {
 
         if (!file.exists()) {
             logger.warn("Secrets.properties file not found.");
-            return; // Prevent crashing but warn user
+            return; // Prevent crashing but warn
         }
 
         try (FileInputStream fileInputStream = new FileInputStream(file)) {
             properties.load(fileInputStream);
             logger.info("Loaded properties from {}", getConfigPath());
         } catch (IOException e) {
-            logger.error("Failed to load secrets.properties file.", e);
             throw new RuntimeException("Failed to load secrets.properties file.", e);
         }
     }

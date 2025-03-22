@@ -8,12 +8,7 @@ public abstract class AbstractConfiguration {
     protected Properties properties = new Properties();
 
     public AbstractConfiguration() {
-        String configPath = getConfigPath();
-        try (InputStream inputStream = new FileInputStream(configPath)) {
-            properties.load(inputStream);
-        } catch (Exception e) {
-            throw new RuntimeException("Unable to read config file: " + configPath, e);
-        }
+        loadProperties();
     }
 
     protected abstract String getConfigPath();
@@ -22,5 +17,12 @@ public abstract class AbstractConfiguration {
         return properties.getProperty(key);
     }
 
-    public abstract void loadProperties();
+    public void loadProperties(){
+        String configPath = getConfigPath();
+        try (InputStream inputStream = new FileInputStream(configPath)) {
+            properties.load(inputStream);
+        } catch (Exception e) {
+            throw new RuntimeException("Unable to read config file: " + configPath, e);
+        }
+    }
 }

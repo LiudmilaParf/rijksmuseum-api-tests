@@ -7,11 +7,6 @@ public class Configuration extends AbstractConfiguration{
         return "src/test/resources/general.properties";
     }
 
-    @Override
-    public void loadProperties() {
-
-    }
-
     public String getBaseUrl(){
         return getProperty("base.url");
     }
