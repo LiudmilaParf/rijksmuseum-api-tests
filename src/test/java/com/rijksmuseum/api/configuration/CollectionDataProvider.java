@@ -12,4 +12,14 @@ public class CollectionDataProvider {
                 {"Vincent van Gogh"}
         };
     }
+
+    @DataProvider(name = "material")
+    public static Object[][] getMaterial() {
+        return new Object[][]{
+                {"canvas"},
+                {"karton"},
+                {"papier"},
+                {"gouache (waterverf)"}
+        };
+    }
 }
