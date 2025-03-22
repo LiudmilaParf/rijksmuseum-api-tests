@@ -57,9 +57,9 @@ jobs:
         uses: peaceiris/actions-gh-pages@v2
         if: always()
         env:
-          personal_token: ${{ secrets.PAT }}
-          publish_branch: allure-gh-pages
-          publish_dir: allure-history
+          PERSONAL_TOKEN: ${{ secrets.PAT }}
+          PUBLISH_BRANCH: allure-gh-pages
+          PUBLISH_DIR: allure-history
 
       - name: Print Allure Report URL
         if: always()
