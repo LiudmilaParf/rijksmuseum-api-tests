@@ -56,7 +56,7 @@ jobs:
       - name: Deploy Allure report to GH Pages
         uses: peaceiris/actions-gh-pages@v3
         if: always()
-        env:
+        with:
           github_token: ${{ secrets.PAT }}
           publish_branch: allure-gh-pages
           publish_dir: allure-history
