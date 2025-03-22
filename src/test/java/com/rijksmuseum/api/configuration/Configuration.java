@@ -15,4 +15,8 @@ public class Configuration extends AbstractConfiguration{
     public String getBaseUrl(){
         return getProperty("base.url");
     }
+
+    public String getCulture(){
+        return getProperty("culture");
+    }
 }

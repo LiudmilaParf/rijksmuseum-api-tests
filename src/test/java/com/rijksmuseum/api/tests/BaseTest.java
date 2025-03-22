@@ -13,12 +13,15 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import org.testng.annotations.BeforeClass;
 import io.qameta.allure.restassured.AllureRestAssured;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
 
 public class BaseTest {
     protected static Configuration config;
     protected static SecretsProvider secrets;
     protected static String baseUrl;
     protected static String apiKey;
+    String culture;
 
     @BeforeClass
     public void setup() {
@@ -26,8 +29,9 @@ public class BaseTest {
         secrets = new SecretsProvider();
         baseUrl = config.getBaseUrl();
         apiKey = secrets.getApiKey();
+        culture = config.getCulture();
 
-        RestAssured.baseURI = baseUrl;
+        RestAssured.baseURI = baseUrl + "/" + culture;
 
         // Configure RestAssured to handle JSON responses correctly
         RestAssured.config = RestAssuredConfig.config()
@@ -38,15 +42,20 @@ public class BaseTest {
                             return objectMapper;
                         }
                 ));
+
+        RestAssured.filters(
+                new RequestLoggingFilter(LogDetail.ALL),
+                new ResponseLoggingFilter(LogDetail.ALL)
+        );
     }
 
     public RequestSpecification getRequestSpec() {
         return new RequestSpecBuilder()
                 .setRelaxedHTTPSValidation()
-                .addQueryParam("key", apiKey) // Automatically adds API key
-                .addQueryParam("format", "json") // Ensures JSON format in API responses
+                .addQueryParam("key", apiKey)
+                .addQueryParam("format", "json")
                 .setContentType(ContentType.JSON)
-                .addFilter(new AllureRestAssured()) // Attach request/response to Allure
+                .addFilter(new AllureRestAssured())
                 .log(LogDetail.ALL)
                 .build();
     }
