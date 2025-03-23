@@ -5,6 +5,7 @@ import com.rijksmuseum.api.configuration.CollectionConfiguration;
 import com.rijksmuseum.api.configuration.CollectionDataProvider;
 import com.rijksmuseum.api.models.collection.ArtObjects;
 import com.rijksmuseum.api.models.collection.CollectionResponse;
+import io.qameta.allure.Issue;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -52,6 +53,7 @@ public class CollectionTests extends BaseTest {
                 response.getArtObjects(), not(empty()));
     }
 
+    @Issue("4")
     @Test(description = "GET /collection by involvedMaker", groups = {"collections"},
             dataProvider = "artists",
             dataProviderClass = CollectionDataProvider.class)
