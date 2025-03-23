@@ -20,16 +20,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup secrets.properties
-        run: |
-          echo "api.key=${API_KEY}" > src/test/resources/secrets.properties
-          cat src/test/resources/secrets.properties
-
-      - name: Set up JDK 17
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21'
 
       - name: Run API Tests
         run: mvn clean test || true

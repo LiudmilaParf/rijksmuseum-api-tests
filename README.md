@@ -5,7 +5,7 @@ This is an automated testing project for the Rijksmuseum public API, built using
 
 ## Tech Stack
 
-- **Java 17**
+- **Java 21**
 - **TestNG**
 - **RestAssured**
 - **Allure Reports**
@@ -75,14 +75,15 @@ api.key=YOUR_API_KEY
 3. Run tests with:
 
 ```bash
-mvn clean test
+./mvnw clean test
 ```
 
 4. Generate Allure Report locally:
 
 ```bash
-allure serve target/allure-results
+./mvnw allure:report
 ```
+The report generated locally can be opened in browser, see [index.html](./target/allure-report/index.html)
 
 ## Running in GitHub Actions
 This project is fully integrated with **GitHub Actions** for CI execution and Allure report publishing.
