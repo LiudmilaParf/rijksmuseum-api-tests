@@ -11,6 +11,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.apache.http.HttpStatus.SC_OK;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 public class CollectionDetailsTests extends BaseTest {
 
@@ -30,19 +32,22 @@ public class CollectionDetailsTests extends BaseTest {
         collectionConfig = new CollectionConfiguration();
     }
 
-    @Step
+    @Step(value = "Step 1 - Get Object Number")
     public void getObjectNumber() {
         objectNumber = collectionAction.getRandomObjectNumber(collectionConfig.getInvolvedMaker(), requestSpec, responseSpec);
     }
 
-    @Test(description = "GET /collection", groups = {"smoke", "collectionDetails"})
+    @Test(description = "GET /collection - get collection details by objectNumber", groups = {"smoke", "collectionDetails"})
     public void getCollectionDetailsByObjectNumber() {
         getObjectNumber();
 
         CollectionDetailResponse response = collectionDetailsAction.getCollectionDetailsByObjectNumber(
-                objectNumber, requestSpec, responseSpec)
+                        objectNumber, requestSpec, responseSpec)
                 .statusCode(SC_OK)
                 .extract()
                 .as(CollectionDetailResponse.class);
+
+        assertThat("objectNumber does not match the requested one",
+                response.getArtObject().getObjectNumber(), equalTo(objectNumber));
     }
 }

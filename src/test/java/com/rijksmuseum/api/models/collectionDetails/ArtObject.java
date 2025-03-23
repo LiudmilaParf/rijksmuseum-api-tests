@@ -20,10 +20,10 @@ public class ArtObject {
     private String title;
     private String copyrightHolder;
     private WebImage webImage;
-    private List<String> colors;
-    private List<String> colorsWithNormalization;
-    private List<String> normalizedColors;
-    private List<String> normalized32Colors;
+    private List<Colors> colors;
+    private List<Colors> colorsWithNormalization;
+    private List<Colors> normalizedColors;
+    private List<Colors> normalized32Colors;
     private List<String> materialsThesaurus;
     private List<String> techniquesThesaurus;
     private List<String> productionPlacesThesaurus;
@@ -32,7 +32,7 @@ public class ArtObject {
     private String labelText;
     private List<String> objectTypes;
     private List<String> objectCollection;
-    private List<String> makers;
+    private List<PrincipalMaker> makers;
     private List<PrincipalMaker> principalMakers;
     private String plaqueDescriptionDutch;
     private String plaqueDescriptionEnglish;

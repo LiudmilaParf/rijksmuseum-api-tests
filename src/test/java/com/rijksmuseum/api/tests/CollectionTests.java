@@ -117,6 +117,5 @@ public class CollectionTests extends BaseTest {
         int statusCode = response.statusCode();
 
         assertThat("Expected an error response (4xx or 5xx), but received status code: " + statusCode, statusCode >= 400);
-
     }
 }
