@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       suite:
-        description: 'Run Smoke Tests'
+        description: 'Test Group to Run'
         required: false
         default: 'collections'
 

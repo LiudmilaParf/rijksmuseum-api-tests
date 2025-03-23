@@ -5,6 +5,7 @@ import com.rijksmuseum.api.actions.CollectionDetailsAction;
 import com.rijksmuseum.api.configuration.CollectionConfiguration;
 import com.rijksmuseum.api.models.collectionDetails.CollectionDetailResponse;
 import io.qameta.allure.Step;
+import io.qameta.allure.Story;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import org.testng.annotations.BeforeMethod;
@@ -14,6 +15,7 @@ import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+@Story("RM-2 RM API: GetCollectionDetails")
 public class CollectionDetailsTests extends BaseTest {
 
     RequestSpecification requestSpec;
@@ -37,7 +39,7 @@ public class CollectionDetailsTests extends BaseTest {
         objectNumber = collectionAction.getRandomObjectNumber(collectionConfig.getInvolvedMaker(), requestSpec, responseSpec);
     }
 
-    @Test(description = "GET /collection - get collection details by objectNumber", groups = {"smoke", "collectionDetails"})
+    @Test(description = "GET /collection/{object-number} - get collection details by objectNumber", groups = {"smoke", "collectionDetails"})
     public void getCollectionDetailsByObjectNumber() {
         getObjectNumber();
 
