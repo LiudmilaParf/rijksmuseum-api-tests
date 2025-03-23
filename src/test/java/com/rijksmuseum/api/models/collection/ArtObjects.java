@@ -1,6 +1,7 @@
-package com.rijksmuseum.api.models;
+package com.rijksmuseum.api.models.collection;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.rijksmuseum.api.models.collectionDetails.WebImage;
 import lombok.*;
 
 import java.util.List;

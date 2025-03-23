@@ -3,8 +3,8 @@ package com.rijksmuseum.api.tests;
 import com.rijksmuseum.api.actions.CollectionAction;
 import com.rijksmuseum.api.configuration.CollectionConfiguration;
 import com.rijksmuseum.api.configuration.CollectionDataProvider;
-import com.rijksmuseum.api.models.ArtObjects;
-import com.rijksmuseum.api.models.CollectionResponse;
+import com.rijksmuseum.api.models.collection.ArtObjects;
+import com.rijksmuseum.api.models.collection.CollectionResponse;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -21,7 +21,6 @@ import static io.restassured.RestAssured.given;
 import static org.apache.http.HttpStatus.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.assertFalse;
 
 @Story("RM-1 RM API: GetCollections")
 public class CollectionTests extends BaseTest {

@@ -1,4 +1,4 @@
-package com.rijksmuseum.api.models;
+package com.rijksmuseum.api.models.collectionDetails;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
@@ -10,6 +10,5 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Links {
-    private String self;
-    private String web;
+    private String search;
 }

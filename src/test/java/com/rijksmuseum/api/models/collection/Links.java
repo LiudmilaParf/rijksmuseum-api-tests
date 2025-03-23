@@ -1,4 +1,4 @@
-package com.rijksmuseum.api.models;
+package com.rijksmuseum.api.models.collection;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FacetItem {
-    private String key;
-    private Integer value;
+public class Links {
+    private String self;
+    private String web;
 }

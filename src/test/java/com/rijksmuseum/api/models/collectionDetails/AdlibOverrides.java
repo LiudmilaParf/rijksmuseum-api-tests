@@ -1,4 +1,4 @@
-package com.rijksmuseum.api.models;
+package com.rijksmuseum.api.models.collectionDetails;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
@@ -9,8 +9,8 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Dating {
-    private String presentingDate;
-    private int yearEarly;
-    private int yearLate;
+public class AdlibOverrides {
+    private String titel;
+    private String maker;
+    private String etiketText;
 }
