@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Rijksmuseum API Smoke Test Suite" parallel="classes" thread-count="2">
+    <test name="Smoke Group Only">
+        <groups>
+            <run>
+                <include name="collections"/>
+            </run>
+        </groups>
+    </test>
+</suite>
