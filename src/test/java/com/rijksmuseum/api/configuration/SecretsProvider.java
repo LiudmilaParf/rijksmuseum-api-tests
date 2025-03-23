@@ -1,6 +1,5 @@
-package com.rijksmuseum.api.utilities;
+package com.rijksmuseum.api.configuration;
 
-import com.rijksmuseum.api.configuration.AbstractConfiguration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

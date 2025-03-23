@@ -1,7 +1,7 @@
 package com.rijksmuseum.api.tests;
 
 import com.rijksmuseum.api.configuration.Configuration;
-import com.rijksmuseum.api.utilities.SecretsProvider;
+import com.rijksmuseum.api.configuration.SecretsProvider;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
