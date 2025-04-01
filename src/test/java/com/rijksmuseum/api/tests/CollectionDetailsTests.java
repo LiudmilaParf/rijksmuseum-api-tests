@@ -52,4 +52,14 @@ public class CollectionDetailsTests extends BaseTest {
         assertThat("objectNumber does not match the requested one",
                 response.getArtObject().getObjectNumber(), equalTo(objectNumber));
     }
+
+    @Test(description = "GET /collection/{object-number} - invalid object number returns error",
+            groups = {"negative", "collectionDetails"})
+    public void getCollectionDetailsWithInvalidObjectNumber() {
+        String invalidObjectNumber = "INVALID-OBJECT-123";
+
+        collectionDetailsAction.getCollectionDetailsByObjectNumber(
+                        invalidObjectNumber, requestSpec, responseSpec)
+                .statusCode(greaterThanOrEqualTo(400));
+    }
 }

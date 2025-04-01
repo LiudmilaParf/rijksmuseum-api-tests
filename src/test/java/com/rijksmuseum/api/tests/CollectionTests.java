@@ -86,6 +86,60 @@ public class CollectionTests extends BaseTest {
         assertThat(NON_EMPTY_RESPONSE_EXPECTED, response.getArtObjects(), not(empty()));
     }
 
+    @Test(description = "GET /collection by object type", groups = {"collections"},
+            dataProvider = "objectTypes",
+            dataProviderClass = CollectionDataProvider.class)
+    public void getCollectionByObjectType(String type) {
+        CollectionResponse response = collectionAction.getCollectionByParam(
+                        Map.of("type", type),
+                        requestSpec, responseSpec)
+                .statusCode(SC_OK)
+                .extract()
+                .as(CollectionResponse.class);
+
+        assertThat(NON_EMPTY_RESPONSE_EXPECTED, response.getArtObjects(), not(empty()));
+    }
+
+    @Test(description = "GET /collection by technique", groups = {"collections"},
+            dataProvider = "techniques",
+            dataProviderClass = CollectionDataProvider.class)
+    public void getCollectionByTechnique(String technique) {
+        CollectionResponse response = collectionAction.getCollectionByParam(
+                        Map.of("technique", technique),
+                        requestSpec, responseSpec)
+                .statusCode(SC_OK)
+                .extract()
+                .as(CollectionResponse.class);
+
+        assertThat(NON_EMPTY_RESPONSE_EXPECTED, response.getArtObjects(), not(empty()));
+    }
+
+    @Test(description = "GET /collection by dating period", groups = {"collections"},
+            dataProvider = "periods",
+            dataProviderClass = CollectionDataProvider.class)
+    public void getCollectionByPeriod(String period) {
+        CollectionResponse response = collectionAction.getCollectionByParam(
+                        Map.of("f.dating.period", period),
+                        requestSpec, responseSpec)
+                .statusCode(SC_OK)
+                .extract()
+                .as(CollectionResponse.class);
+
+        assertThat(NON_EMPTY_RESPONSE_EXPECTED, response.getArtObjects(), not(empty()));
+    }
+
+    @Test(description = "GET /collection by multiple materials", groups = {"collections"})
+    public void getCollectionByMultipleMaterials() {
+        CollectionResponse response = collectionAction.getCollectionByParam(
+                        Map.of("material", "canvas,karton"),
+                        requestSpec, responseSpec)
+                .statusCode(SC_OK)
+                .extract()
+                .as(CollectionResponse.class);
+
+        assertThat(NON_EMPTY_RESPONSE_EXPECTED, response.getArtObjects(), not(empty()));
+    }
+
     @Test(description = "GET /collection by more than one parameter", groups = {"collections"})
     public void getCollectionByTwoParams() {
         CollectionResponse response = collectionAction.getCollectionByParam(
@@ -102,6 +156,30 @@ public class CollectionTests extends BaseTest {
                         .map(ArtObjects::getPrincipalOrFirstMaker)
                         .toList(),
                 everyItem(equalTo(collectionConfig.getInvolvedMaker())));
+    }
+
+    @Test(description = "GET /collection with invalid API key", groups = {"negative", "collections"})
+    public void getCollectionWithInvalidApiKey() {
+        Response response = given()
+                .spec(requestSpec)
+                .queryParam("key", "invalid_key")
+                .when()
+                .get(COLLECTION);
+
+        assertThat("Expected unauthorized or error status for invalid API key",
+                response.statusCode(), anyOf(is(SC_UNAUTHORIZED), is(SC_FORBIDDEN)));
+    }
+
+    @Test(description = "GET /collection with non-existent material", groups = {"negative", "collections"})
+    public void getCollectionWithNonexistentMaterial() {
+        CollectionResponse response = collectionAction.getCollectionByParam(
+                        Map.of("material", "nonexistentMaterialXyz"),
+                        requestSpec, responseSpec)
+                .statusCode(SC_OK)
+                .extract()
+                .as(CollectionResponse.class);
+
+        assertThat("Expected empty result for unknown material", response.getArtObjects(), empty());
     }
 
     @Test(description = "GET /collection - Verify that page * pageSize cannot exceed 10,000", groups = {"negative", "collections"})
